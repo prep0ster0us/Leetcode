@@ -53,3 +53,23 @@ public:
         return min(ans1, ans2);
     }
 };
+
+/*
+*************** PATTERN-BASED SOLUTION ***********************
+class Solution {
+public:
+    int minOperations(string s) {
+        int n = s.length(), count;
+        // single bit, nothing to alternate
+        if(n==1) return 0;
+        // template format: even index have '0' and odd index have '1'
+        for(int i=0; i<n; i++) {
+            if(i%2==0 and s[i]=='0') count++;
+            if(i%2==1 and s[i]=='1') count++;
+        }
+        // count   -> for pattern 0101010..
+        // n-count -> for pattern 1010101..
+        return min(count, n-count);
+    }
+};
+*/
