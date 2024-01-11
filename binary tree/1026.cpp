@@ -19,6 +19,8 @@ TAGS: Tree, DFS
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// BRUTE FORCE APPROACH - store all elements and check for the max difference based on heirarchy
 class Solution {
 public:
     unordered_map<int, vector<int>> hash;
@@ -47,5 +49,25 @@ public:
         }
         if(root->left) getAncestors(root->left, root->val);
         if(root->right) getAncestors(root->right, root->val);
+    }
+};
+
+// DFS APPROACH - DFS and keep track of max and min values in heirarchy;
+class Solution {
+public:
+    int ans=0;
+    int maxAncestorDiff(TreeNode* root) {
+        dfs(root, root->val, root->val);
+        return ans;
+    }
+
+    void dfs(TreeNode* root, int minVal, int maxVal) {
+        if(!root) return;
+        // update and keep track of max and min values (for that ancestory)
+        ans = max(ans, abs(minVal-root->val));
+        ans = max(ans, abs(maxVal-root->val));
+        // dfs down based on comparisons with next node value (min/max)
+        if(root->left) dfs(root->left, min(minVal, root->left->val), max(maxVal, root->left->val));
+        if(root->right) dfs(root->right, min(minVal, root->right->val), max(maxVal, root->right->val));
     }
 };
